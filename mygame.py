@@ -12,8 +12,8 @@ class Almond(Sprite):
         self.rect = self.image.get_rect()
 
     def move(self):
-        randX = randint(0, 600)
-        randY = (0, 400)
+        randX = randint(0, 800)
+        randY = randint(0, 800)
         self.rect.center = (randX, randY)
 
 class Obama(Sprite):
@@ -43,7 +43,7 @@ almond = Almond()
 obama = Obama()
 sprites = RenderPlain(almond, obama)
 
-hits = 0
+snacks = 0
 time.set_timer(USEREVENT + 1, DELAY)
 
 while True:

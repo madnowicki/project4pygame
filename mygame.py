@@ -37,7 +37,7 @@ display.set_caption('The Snack-uation Room')
 
 mouse.set_visible(False)
 
-f = font.Font(None, 50)
+f = font.Font(None, 65)
 
 almond = Almond()
 obama = Obama()

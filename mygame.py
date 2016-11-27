@@ -34,6 +34,7 @@ maxHeight = 800
 maxWidth = 800
 screen = display.set_mode((maxWidth, maxHeight))
 display.set_caption('The Snack-uation Room')
+bgcolor = image.load("flag.bmp").convert_alpha()
 
 mouse.set_visible(False)
 
@@ -62,8 +63,8 @@ while True:
 
     elif e.type == USEREVENT + 1:
         almond.move()
-
-    screen.fill(bgcolor)
+#how to upload background image??
+    screen.image.load("flag.bmp").convert_alpha()
     t = f.render("Jackpot = " + str(snacks), False, (0,0,0))
     screen.blit(t, (320,0))
 

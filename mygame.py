@@ -1,7 +1,7 @@
 from pygame import *
 from pygame.sprite import *
 from random import *
-
+#comment
 DELAY = 1000;
 
 class Background(pygame.sprite.Sprite):
@@ -69,6 +69,7 @@ while True:
 
     elif e.type == USEREVENT + 1:
         almond.move()
+        
 #how to upload background image??
     screen.image.load("flag.bmp").convert_alpha()
     t = f.render("Jackpot = " + str(snacks), False, (0,0,0))

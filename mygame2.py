@@ -16,8 +16,8 @@ class Almond(Sprite):
         self.rect = self.image.get_rect()
 
     def move(self):
-        randX = randint(0, 800)
-        randY = randint(0, 800)
+        randX = randint(0, 400)
+        randY = randint(0, 400)
         self.rect.center = (randX, randY)
 
 class Obama(Sprite):
@@ -37,8 +37,10 @@ def intro():
 	bgimage = pygame.transform.scale(bgimage, (maxWidth, maxHeight))
 	screen.blit(bgimage, (0,0))
 	f = font.Font(None, 30)
-	t = f.render("Intro screen and instructions", False, (0,0,0))
+	t = f.render("Intro screen and instructions, press space bar", False, (0,0,0))
 	screen.blit(t, (320,0))	
+	#this sound not working
+	#mixer.Sound("usa-anthem.wav").play()
 
 	while True:
 		for e in event.get():
@@ -72,14 +74,15 @@ def main():
 	    if e.type == QUIT:
 	        quit()
 	        break
-
 	    elif e.type == MOUSEBUTTONDOWN:
-	        if obama.eat(almond):
-	            mixer.Sound("bite.wav").play()
-	            almond.move()
-	            snacks += 1
-
-	            # reset timer
+	    	if snacks < 7:
+	    		if obama.eat(almond):
+	    			mixer.Sound("bite.wav").play()
+	    			almond.move()
+	    			snacks += 1
+	    	else:
+	    		quit()
+	    		break
 	            
 	    elif e.type == USEREVENT + 1: # TIME has passed
 	        almond.move()
@@ -95,5 +98,21 @@ def main():
 	    sprites.draw(screen)
 	    display.update()
 	#snacks = 0
-
 main()
+
+def ends():
+	bgimage = pygame.image.load("const.bmp").convert_alpha()
+	bgimage = pygame.transform.scale(bgimage, (maxWidth, maxHeight))
+	screen.blit(bgimage, (0,0))
+	f = font.Font(None, 30)
+	t = f.render("You hit the Snackpot! Obama can relax now :)", False, (0,0,0))
+	screen.blit(t, (320,0))	
+	#this sound not working
+	#mixer.Sound("usa-anthem.wav").play()
+
+	screen.blit(bgimage, (0,0))
+	screen.blit(t, (320,0))
+	display.flip()
+	pygame.quit()
+
+ends()

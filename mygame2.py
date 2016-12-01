@@ -51,6 +51,7 @@ def intro():
 	pygame.quit()
 
 intro()
+
 def main():
 	bgimage = pygame.image.load("flag.bmp").convert()
 	bgimage = pygame.transform.scale(bgimage, (maxWidth, maxHeight))

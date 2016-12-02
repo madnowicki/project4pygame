@@ -57,6 +57,8 @@ intro()
 def main():
 	bgimage = pygame.image.load("flag.bmp").convert()
 	bgimage = pygame.transform.scale(bgimage, (maxWidth, maxHeight))
+	theme = mixer.Sound("usa-anthem.wav").play(loops=2)
+	theme.set_volume(0.2)
 	screen.blit(bgimage, (0,0))
 
 

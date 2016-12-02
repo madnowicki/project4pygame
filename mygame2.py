@@ -23,7 +23,7 @@ class Almond(Sprite):
 class AlmondDrop(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super(AlmondDrop, self).__init__()
-        self.image = pygame.Surface((2, 2))
+        self.image = image.load("almondicon.bmp").convert_alpha()
         pygame.draw.circle(self.image,
                            (128, 128, 200),
                            (0, 0),
@@ -51,15 +51,12 @@ class AlmondDrop(pygame.sprite.Sprite):
         pygame.draw.line(self.image, (self.colour, self.colour, self.colour),
                          (0, 0), (0, self.size))
 
-        if self.velocity < Y_MAX / 3:
+        if self.velocity < maxHeight / 3:
             self.velocity += 1
-
-        # x, y = self.rect.center
-        # self.rect.center = random.randrange(X_MAX), y
 
     def update(self):
         x, y = self.rect.center
-        if self.rect.center[1] > Y_MAX:
+        if self.rect.center[1] > maxHeight:
             self.rect.center = (x, 0)
         else:
             self.rect.center = (x, y + self.velocity)
@@ -89,19 +86,18 @@ def intro():
 	bgimage = pygame.image.load("ovalofficedesk.bmp").convert_alpha()
 	bgimage = pygame.transform.scale(bgimage, (maxWidth, maxHeight))
 	screen.blit(bgimage, (0,0))
-	f = font.Font(None, 30)
+	f = font.Font(None, 45)
 	t1 = f.render("Oh no! We have a snack-uation on our hands.", False, (255,255,255))
 	t2 = f.render("The nation needs your help.",False,(255,255,255))
 	t3 = f.render("Can you feed President Obama his 7 nightly almonds?",False,(255,255,255))
 	t4 = f.render("Press the space bar if you accept this challenge.", False, (255,255,255))
 	screen.blit(t1, (0,0))	
-	screen.blit(t2, (0,35))	
-	screen.blit(t3, (0,65))	
-	screen.blit(t4, (0,85))	
+	screen.blit(t2, (0,25))	
+	screen.blit(t3, (0,45))	
+	screen.blit(t4, (0,65))	
 
 	mixer.init()
 	mixer.Sound("anthem.wav").play()
-	#mixer.Sound.play(theme, loops = 100)
 
 	while True:
 		for e in event.get():
@@ -111,7 +107,7 @@ def intro():
 		screen.blit(bgimage, (0,0))
 		screen.blit(t1, (0,0))
 		screen.blit(t2, (0,35))	
-		screen.blit(t3, (0,65))	
+		screen.blit(t3, (0,65))
 		screen.blit(t4, (0,85))
 		display.flip()
 	pygame.quit()
@@ -119,18 +115,22 @@ def intro():
 intro()
 
 def ends():
-	bgimage = pygame.image.load("const.bmp").convert_alpha()
+	bgimage = pygame.image.load("ovalofficedesk.bmp").convert_alpha()
 	bgimage = pygame.transform.scale(bgimage, (maxWidth, maxHeight))
 	screen.blit(bgimage, (0,0))
-	f = font.Font(None, 30)
-	t = f.render("You hit the Snackpot! Obama can relax now :)", False, (0,0,0))
-	screen.blit(t, (320,0))	
-	#mixer.init()
-	#mixer.Sound("anthem.wav").play()
+	f = font.Font(None, 40)
+	t = f.render("You hit the Snackpot! Obama can relax now!", False, (255,255,255))
+	screen.blit(t, (0,0))	
 
 	#call pile of almonds function here
+	everything = pygame.sprite.Group()
+	piles = create_pileofalmonds(everything)
+	for i in piles: 
+		i.accelerate()
+	everything.update()
+
 	screen.blit(bgimage, (0,0))
-	screen.blit(t, (320,0))
+	screen.blit(t, (50,300))
 	display.flip()
 	display.update()
 	pygame.time.delay(3000)
@@ -139,13 +139,9 @@ def ends():
 def main():
 	font.init()
 	mixer.init()
-	bgimage = pygame.image.load("whitehouse.bmp").convert()
+	bgimage = pygame.image.load("wh.bmp").convert()
 	bgimage = pygame.transform.scale(bgimage, (maxWidth, maxHeight))
 	screen.blit(bgimage, (0,0))
-
-	#trying to make it rain almonds at beginning
-	everything = pygame.sprite.Group()
-	piles = create_pileofalmonds(everything)
 
 	mouse.set_visible(False)
 	f = font.Font(None, 65)
@@ -169,19 +165,17 @@ def main():
 	    			almond.move()
 	    			snacks += 1
 	    	else:
+	    		mixer.Sound("cha-ching.wav").play()
 	    		ends()
 	    		break
 	            
 	    elif e.type == USEREVENT + 1: # TIME has passed
 	        almond.move()
 
-	    # refill background color so that we can paint sprites in new locations
-	    #screen.fill(bgcolor)
 	    screen.blit(bgimage, (0,0))
-	    t = f.render("Snackpot = " + str(snacks), False, (255,255,255))
-	    screen.blit(t, (0, 0))        # draw text to screen.  Can you move it?
+	    t = f.render("Snackpot = " + str(snacks), False, (0,0,0))
+	    screen.blit(t, (0, 0))        
 
-	    # update and redraw sprites
 	    sprites.update()
 	    sprites.draw(screen)
 	    display.update()
